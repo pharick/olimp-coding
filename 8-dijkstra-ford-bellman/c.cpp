@@ -12,9 +12,7 @@ int n;
 std::vector<Edge> g[100];
 int d[100];
 int parents[100];
-bool cycle_from = -1;
-int cycle_len = 0;
-std::vector << 
+int cycle_from = -1;
 
 void init(int v) {
   for (int i = 0; i < n; i++) {
@@ -64,13 +62,22 @@ int main() {
   bellman_ford(0);
 
   if (cycle_from != -1) {
-    std::cout << "YES" << std::endl
-              << cycle_from << std::endl;
-    int from = cycle_from;
-    do {
-      std::cout << from + 1 << " ";
-      from = parents[from];
-    } while (from != cycle_from);
+    std::cout << "YES" << std::endl;
+
+    // std::cout << cycle_from << std::endl;
+
+    std::vector<int> cycle;
+    cycle.push_back(cycle_from);
+    
+    while (parents[cycle.back()] != cycle_from) {
+      cycle.push_back(parents[cycle.back()]);
+    }
+
+    std::cout << cycle.size() << std::endl;
+
+    for (int v : cycle) {
+      std::cout << v + 1 << " ";
+    }
     std::cout << std::endl;
   } else {
     std::cout << "NO" << std::endl;
